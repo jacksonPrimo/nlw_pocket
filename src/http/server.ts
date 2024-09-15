@@ -6,6 +6,7 @@ import {
 	validatorCompiler,
 	type ZodTypeProvider,
 } from "fastify-type-provider-zod";
+import { GetWeekPendingGoalds } from "../functions/get-week-pending-goals";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -30,6 +31,11 @@ app.post(
 		});
 	},
 );
+
+app.get("/pending-goals", async (request) => {
+	const { pendingGoals } = await GetWeekPendingGoalds();
+	return pendingGoals;
+});
 
 app
 	.listen({
