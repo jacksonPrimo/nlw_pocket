@@ -7,6 +7,7 @@ export async function GetWeekPendingGoalds() {
 	const firstDayOfweek = dayjs().startOf("week").toDate();
 	const lastDayOfweek = dayjs().endOf("week").toDate();
 
+	//common table expressions
 	const goalsCreatedUpToWeek = db.$with("goals_created_up_to_week").as(
 		db
 			.select({
@@ -23,9 +24,7 @@ export async function GetWeekPendingGoalds() {
 		db
 			.select({
 				goalId: goalCompletations.goalId,
-				completationsCount: count(goalCompletations.id).as(
-					"completationsCount",
-				),
+				completationsCount: count().as("completationsCount"),
 			})
 			.from(goalCompletations)
 			.where(
